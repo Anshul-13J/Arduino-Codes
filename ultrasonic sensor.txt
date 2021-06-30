@@ -1,0 +1,110 @@
+// C++ code
+const int trigger=8;
+const int echo=9;
+const int led=13;
+long int duration;
+int distance;
+void setup()
+{
+  pinMode(trigger, OUTPUT);
+  pinMode(echo,INPUT);
+  Serial.begin(9600); 
+  pinMode(led,OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(trigger,LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigger,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigger,LOW);
+  
+  duration= pulseIn(echo,HIGH);
+  distance= duration* 0.034/2;
+  Serial.print(distance);
+  if(distance>=2 && distance<=320)
+    digitalWrite(led,HIGH);
+  else
+    digitalWrite(led,LOW);
+}
+
+
+
+
+
+
+
+
+
+#include <LiquidCrystal.h>
+
+const int rs=11, en=12;          		  //For LCD 
+const int d4=3 , d5=4, d6=5, d7=6;	      //For LCD
+const int echo=1, trigger=0;		   	  //For US sensor
+LiquidCrystal lcd(rs,en, d4, d5, d6,d7);
+long int duration;
+int distance;
+
+void setup()
+{
+  lcd.begin(16,2);
+  pinMode(echo,INPUT);
+  pinMode(trigger,OUTPUT);
+  Serial.begin(9600); 
+  lcd.setCursor(0,0);
+  lcd.print("Wlcm to distance");
+  lcd.setCursor(0,1);
+  lcd.print("Measuring device");
+  delay(2500);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Distance:");
+}
+
+void loop()
+{
+
+  digitalWrite(trigger,LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigger,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigger,LOW);
+  duration= pulseIn(echo,HIGH);
+  distance= duration* 0.034/2;
+  Serial.print(distance);    		//To get output on monitor
+  Serial.print("\n");
+  lcd.setCursor(0,1);
+  if(distance>=1 && distance<=320)
+    lcd.print(distance);
+  else
+    lcd.print("Out of range");
+}
+
+
+
+void loop()
+{
+  
+  digitalWrite(trigger,LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigger,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigger,LOW);
+  duration= pulseIn(echo,HIGH);
+  distance = duration* 0.034/2;
+  Serial.print(distance);
+  
+  lcd.setCursor(0,0);
+  lcd.print("Distance: ");
+  
+  lcd.setCursor(0,1);
+  if(distance>=2 && distance<=330)
+    lcd.print(distance);
+  else
+    lcd.print("Out of range");
+  
+  delay(2000);
+
+
+}
